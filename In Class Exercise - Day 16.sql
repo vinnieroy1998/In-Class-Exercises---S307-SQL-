@@ -1,0 +1,73 @@
+CREATE TABLE STUDENT_T
+(
+  StudentID NUMBER not null,
+  StudentName VARCHAR2(25) not null,
+  CONSTRAINT Student_PK PRIMARY KEY (StudentID)
+);
+
+INSERT INTO STUDENT_T (StudentID, StudentName)
+VALUES (38214,'Letersky');
+INSERT INTO STUDENT_T (StudentID, StudentName)
+VALUES (54907,'Altvater');
+INSERT INTO STUDENT_T (StudentID, StudentName)
+VALUES (54907,'Altvater');
+INSERT INTO STUDENT_T (StudentID, StudentName)
+VALUES (66324, 'Aiken');
+
+ALTER TABLE STUDENT_T
+ADD Class;
+
+CREATE TABLE FACULTY_T
+(
+  FacultyID NUMBER not null,
+  FacultyName   VARCHAR2(25) NOT NULL,
+  CONSTRAINT Faculty_PK PRIMARY KEY (FacultyID)
+);
+
+ALTER TABLE FACULTY_T
+MODIFY FacultyName CHAR(40);
+
+CREATE TABLE COURSE_T
+(
+  CourseID      CHAR(8) NOT NULL,
+  CourseName    VARCHAR2(15) NOT NULL,
+  CONSTRAINT Course_PK PRIMARY KEY (CourseID)
+);
+
+CREATE TABLE QUALIFIED_T
+(
+  FacultyID NUMBER NOT NULL ,
+  CourseID CHAR(8) NOT NULL,
+  DateQualified DATE NOT NULL,
+  CONSTRAINT Qualified_PK PRIMARY KEY   (FacultyID,CourseID),
+  CONSTRAINT QUALIFIED_FK1 FOREIGN KEY  (FacultyID)   REFERENCES Faculty_T(FacultyID),
+  CONSTRAINT QUALIFIED_FK2 FOREIGN KEY  (CourseID)    REFERENCES Course_T(CourseID)
+);
+
+CREATE TABLE SECTION_T
+(
+  SectionNo INTEGER NOT NULL,
+  Semester VARCHAR2(7) NOT NULL,
+  CourseID CHAR(8) NOT NULL ,
+  CONSTRAINT SECTION_PK PRIMARY KEY   (SectionNo,Semester,CourseID),
+  CONSTRAINT SECTION_FK FOREIGN KEY   (CourseID)   REFERENCES Course_T(CourseID)
+);
+
+CREATE TABLE REGISTRATION_T
+(
+  StudentID     INTEGER           not null,
+  SectionNo     INTEGER           not null,
+  Semester      VARCHAR2(7)       not null, --CHAR(7)
+  CONSTRAINT REGISTRATION_PK  PRIMARY KEY   (SectionNo,StudentID,Semester),
+  CONSTRAINT REGISTRATION_FK  FOREIGN KEY   (StudentID)   REFERENCES Student_T(StudentID)
+);
+
+DROP TABLE REGISTRATION_T;
+
+CREATE VIEW StudentID AS
+SELECT StudentID, StudentName
+FROM STUDENT_T
+
+
+
+
